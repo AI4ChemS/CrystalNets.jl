@@ -706,7 +706,7 @@ function topological_key(net::CrystalNet{D,T}, collisions::CollisionList) where 
 
     if !isnothing(net.options.track_mapping)
         map = rev_permute_mapping(net.options, vmap).track_mapping
-        @show map
+        #@show map
     end
 
     # finalbasis = minimal_basis * newbasis

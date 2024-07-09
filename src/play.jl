@@ -22,6 +22,4 @@ function play()
 
     determine_topology(topo_paths[2], opts)
     @show opts.track_mapping
-
-    println("Done play")
 end
