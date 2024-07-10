@@ -707,3 +707,34 @@ function patch_report(path, dict, name)
     rm(copyfile)
     nothing
 end
+
+
+# Josh Additions
+function compute_net_genome(g::PeriodicGraph)
+    opts = CrystalNets.Options(
+        clusterings=[Clustering.EachVertex],
+        export_input=false,
+        export_trimmed=false,
+        export_attributions=false,
+        export_clusters=false,
+        export_net=false,
+        export_subnets=false,
+        skip_minimize=true, # IMPORTANT
+        dimensions=Set(3),
+        throw_error=true,
+        track_mapping=Vector{Int}(),
+        _pos=SVector{3,Float64}[],
+    )
+    topo_genome = CrystalNets.topological_genome(g, opts)
+    all_results = topo_genome.data[1][1].results
+    def_results = Vector{TopologicalGenome}()
+    for index in 1:length(all_results)
+        if isassigned(all_results, index)
+            push!(def_results, all_results[index])
+        end
+    end
+
+    @assert length(def_results) == 1
+
+    return def_results[1]
+end

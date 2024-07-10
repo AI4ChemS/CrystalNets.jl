@@ -4,3 +4,6 @@ Manifest.toml
 .ipynb_checkpoints/
 test/RCSRnets-*
 *.code-workspace
+
+inputs/
+outputs/

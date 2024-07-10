@@ -34,7 +34,7 @@ export CrystalNet,
        StructureType,
        Bonding,
        Clustering,
-       play
+       crystalnets_play
 
 using LinearAlgebra: det, dot, norm, rank, cross
 import LinearAlgebra

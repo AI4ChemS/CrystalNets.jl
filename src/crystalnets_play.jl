@@ -20,6 +20,7 @@ function crystalnets_play()
         _pos=SVector{3,Float64}[],
     )
 
-    determine_topology(topo_paths[2], opts)
-    @show opts.track_mapping
+    g = parse(PeriodicGraph3D, "3 1 2 1 0 0 1 4 0 0 0 1 6 0 0 0 1 8 1 0 0 2 3 -1 -1 -1 2 5 0 0 -1 2 7 0 -1 0 3 4 0 1 0 3 6 0 0 1 3 8 1 0 0 4 5 0 0 0 4 7 0 -1 0 5 6 0 0 1 5 8 0 0 0 6 7 0 0 0 7 8 0 0 0")
+
+    res = compute_net_genome(g)
 end
