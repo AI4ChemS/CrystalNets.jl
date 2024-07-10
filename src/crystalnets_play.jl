@@ -1,4 +1,4 @@
-function play()
+function crystalnets_play()
     topo_paths = [
         "/Users/joshgoldman/Documents/Research/AI4ChemS/Tilings/CrystalNets.jl/inputs/acs_sym_7_mc_4__L_3.cif",
         "/Users/joshgoldman/Documents/Research/AI4ChemS/Tilings/CrystalNets.jl/inputs/csq_sym_5_on_13_sym_8_mc_8_L_12.cif",

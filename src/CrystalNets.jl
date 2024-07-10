@@ -94,7 +94,7 @@ function __init__()
     nothing
 end
 
-include("play.jl")
+include("crystalnets_play.jl")
 include("utils.jl")
 include("options.jl") # Computation options
 include("types.jl") # Main internal type definitions used to represent topologies
