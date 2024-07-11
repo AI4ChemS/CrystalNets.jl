@@ -736,5 +736,5 @@ function compute_net_genome(g::PeriodicGraph)
 
     @assert length(def_results) == 1
 
-    return (def_results[1], opts.track_mapping)
+    return (def_results[1].genome, opts.track_mapping)
 end
