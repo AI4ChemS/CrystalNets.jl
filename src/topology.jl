@@ -713,7 +713,6 @@ function topological_key(net::CrystalNet{D,T}, collisions::CollisionList) where 
 
     # finalbasis = minimal_basis * newbasis
     # return Int.(finalbasis), minimal_vmap, graph
-    @show typeof(graph)
     return graph
 end
 
