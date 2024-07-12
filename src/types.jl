@@ -989,6 +989,11 @@ struct TopologicalGenome
     name::Union{Nothing,String}
     unstable::Bool
     error::String
+    crystal::Union{Nothing, Crystal}
+end
+
+function TopologicalGenome(genome::SmallDimPeriodicGraph, name::Union{Nothing,String}, unstable::Bool, error::String)
+    return TopologicalGenome(genome, name, unstable, error, nothing)
 end
 
 TopologicalGenome(g, name, unstable=false) = TopologicalGenome(g, name, unstable, "")

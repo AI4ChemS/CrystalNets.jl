@@ -704,6 +704,8 @@ function topological_key(net::CrystalNet{D,T}, collisions::CollisionList) where 
         graph = ming
     end
 
+    #@show net.options._pos
+
     if !isnothing(net.options.track_mapping)
         map = rev_permute_mapping(net.options, vmap).track_mapping
         #@show map
@@ -711,6 +713,7 @@ function topological_key(net::CrystalNet{D,T}, collisions::CollisionList) where 
 
     # finalbasis = minimal_basis * newbasis
     # return Int.(finalbasis), minimal_vmap, graph
+    @show typeof(graph)
     return graph
 end
 

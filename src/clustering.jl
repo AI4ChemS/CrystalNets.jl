@@ -1327,7 +1327,9 @@ function split_O_vertices(c)
     end
     vmap = rem_vertices!(graph, toremove)
     pge = PeriodicGraphEmbedding3D(graph, c.pge.pos[vmap], c.pge.cell)
-    return Crystal{Nothing}(pge, c.types[vmap], Options(c.options; _pos=pge.pos))
+    empty!(c.options._pos)
+    append!(c.options._pos, pge.pos)
+    return Crystal{Nothing}(pge, c.types[vmap], c.options)
 end
 
 
@@ -1399,7 +1401,9 @@ function _collapse_clusters(crystal::Crystal{Nothing}, clusters::Clusters, onlyn
     if clustering == Clustering.EachVertex || structure == StructureType.Zeolite
         bypassexport || _export_trimmed_and_attributions(crystal, clusters)
         crystal.options.split_O_vertex && return split_O_vertices(crystal)
-        return onlynv ? crystal : Crystal{Nothing}(crystal; _pos=crystal.pge.pos)
+        empty!(crystal.options._pos)
+        append!(crystal.options._pos, pge.pos)
+        return onlynv ? crystal : Crystal{Nothing}(crystal)
     end
     edgs = PeriodicEdge3D[]
     for s in vertices(crystal.pge.g)
@@ -1444,8 +1448,9 @@ function _collapse_clusters(crystal::Crystal{Nothing}, clusters::Clusters, onlyn
                 @warn "Could not export attributions: the resulting structure is empty."
             end
         end
-        return Crystal{Nothing}(PeriodicGraphEmbedding{3,Float64}(crystal.pge.cell), Symbol[],
-                                 Options(crystal.options; _pos=SVector{3,Float64}[]))
+        empty!(crystal.options._pos)
+        append!(crystal.options._pos, SVector{3,Float64}[])
+        return Crystal{Nothing}(PeriodicGraphEmbedding{3,Float64}(crystal.pge.cell), Symbol[], crystal.options)
     end
     bypassexport || _export_trimmed_and_attributions(crystal, clusters)
 
@@ -1474,7 +1479,9 @@ function _collapse_clusters(crystal::Crystal{Nothing}, clusters::Clusters, onlyn
         sort!(newname; by=first, rev=true)
         types[i] = length(sbu) == 1 ? crystal.types[first(sbu).v] : Symbol(join(last.(newname)))
     end
-    opts = Options(crystal.options; _pos=pos)
+    empty!(crystal.options._pos)
+    append!(crystal.options._pos, pos)
+    opts = crystal.options
     if !isnothing(crystal.options.track_mapping)
         vmap = zeros(Int, length(crystal.types))
         for (i, sbu) in enumerate(sbus)
@@ -1730,7 +1737,9 @@ end
 
 function regroup_toremove(cryst, tomerge, toremove_list, msg)
     if isempty(toremove_list)
-        ret = trimmed_crystal(Crystal{Nothing}(cryst.pge, cryst.types, Options(cryst.options; _pos=cryst.pge.pos)))
+        empty!(cryst.options._pos)
+        append!(cryst.options._pos, cryst.pge.pos)
+        ret = trimmed_crystal(Crystal{Nothing}(cryst.pge, cryst.types, cryst.options))
         export_default(ret, lazy"clusters_$msg", cryst.options.name, cryst.options.export_clusters)
         return ret
     end
@@ -1842,8 +1851,9 @@ function regroup_toremove(cryst, tomerge, toremove_list, msg)
     #remove_triangles!(graph, pge.pos, nothing, Float64.(cryst.pge.cell.mat), new_edgs)
     types = cryst.types[vmap]
 
-
-    ret = trimmed_crystal(Crystal{Nothing}(pge, types, Options(cryst.options; _pos=pge.pos)))
+    empty!(cryst.options._pos)
+    append!(cryst.options._pos, pge.pos)
+    ret = trimmed_crystal(Crystal{Nothing}(pge, types, cryst.options))
     export_default(ret, lazy"clusters_$msg", cryst.options.name, cryst.options.export_clusters)
     return ret
 end
@@ -2040,7 +2050,9 @@ function regroup_vmap(cryst, vmap, isolate, msg)
         sort!(newname; by=first, rev=true)
         types[i] = Symbol(join(last.(newname)))
     end
-    opts = Options(cryst.options; _pos=pos)
+    empty!(cryst.options._pos)
+    append!(cryst.options._pos, pos)
+    opts = cryst.options
     if !isnothing(cryst.options.track_mapping)
         newvmap = zeros(Int, length(cryst.types))
         for (i, sbu) in enumerate(clusters.sbus)
