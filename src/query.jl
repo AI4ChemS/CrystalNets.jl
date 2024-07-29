@@ -742,5 +742,5 @@ end
 function compute_net_genome(g::PeriodicGraph)
     topo_genome, perm = compute_net_topo_genome(g)
 
-    return (topo_genome.genome, opts.track_mapping)
+    return (topo_genome.genome, perm)
 end
