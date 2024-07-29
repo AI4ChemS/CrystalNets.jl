@@ -33,7 +33,9 @@ export CrystalNet,
        topological_genome,
        StructureType,
        Bonding,
-       Clustering
+       Clustering,
+       compute_net_topo_genome,
+       compute_net_genome
 
 using LinearAlgebra: det, dot, norm, rank, cross
 import LinearAlgebra
@@ -93,6 +95,7 @@ function __init__()
     nothing
 end
 
+include("play.jl")
 include("utils.jl")
 include("options.jl") # Computation options
 include("types.jl") # Main internal type definitions used to represent topologies

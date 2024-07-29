@@ -709,8 +709,7 @@ function patch_report(path, dict, name)
 end
 
 
-# Josh Additions
-function compute_net_genome(g::PeriodicGraph)
+function compute_net_topo_genome(g::PeriodicGraph3D)
     opts = CrystalNets.Options(
         clusterings=[Clustering.EachVertex],
         export_input=false,
@@ -736,5 +735,12 @@ function compute_net_genome(g::PeriodicGraph)
 
     @assert length(def_results) == 1
 
-    return (def_results[1].genome, opts.track_mapping)
+    return (def_results[1], opts.track_mapping)
+end
+
+# Josh Additions
+function compute_net_genome(g::PeriodicGraph)
+    topo_genome, perm = compute_net_topo_genome(g)
+
+    return (topo_genome.genome, opts.track_mapping)
 end
